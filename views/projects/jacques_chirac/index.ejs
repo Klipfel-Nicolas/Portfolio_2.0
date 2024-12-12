@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../../partials/head', {
+            title: project.meta_title[0].text, 
+            description: project.meta_description[0].text ,
+            favicon: project.meta_favicon.url
+        }); %>
+    </head>
+
+    <body>
+
+        <header>
+            <h1><%= project.title[0].text %>
+            </h1>
+            <div>
+                <span><%= project.subtitle[0].text %></span>
+                <span><%= project.presidence_date[0].text %></span>
+            </div>
+        </header>
+
+        <main>
+            
+            <!-- background svg -->
+            <%- include('../../svg_templates/jacques_chirac.ejs'); %>
+            
+            
+            <aside>
+                <div>
+                    <img src="<%= project.logo.url %>" alt="<%= project.logo.alt %>">
+                </div>
+
+                <p><%= project.description[0].text %></p>
+
+                <div>
+                    <h2><%= project.quiz_title[0].text %></h2>
+
+                    <button>Lancez le quiz</button>
+                </div>
+
+                <ul>
+                    <% citations.forEach(function(citation, index){ %>
+                        <li>
+                        <span>0<%= index + 1 %> / 0<%= citations.length %></span>
+                        <%= citation %>
+                        </li>
+                    <% }); %>
+                </ul>
+
+                <div>
+                    <ul>
+                        <% project.social_media.forEach(function(social){ %>
+                            <li>
+                                <a href="<%= social.social_link.url %>" >
+                                    <img src="<%= social.social_logo.url %>" alt="<%= social.social_logo.alt %>">
+                                </a>
+                            </li>
+                        <% }); %>
+                    </ul>
+                </div>
+            </aside>
+        </main>
+    </body>
+</html>

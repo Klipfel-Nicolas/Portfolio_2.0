@@ -1,0 +1,10 @@
+<nav>
+  <ul>
+    <% navigation.forEach(function(navItem){ %>
+      <li class="nav-item <%= (prismicLinkPageResolver(navItem.link) == currentPath ) ? 'active' : '' %> ">
+ 
+        <a class="nav-link" href="<%= prismicLinkPageResolver(navItem.link) %>"><%= navItem.label[0].text %></a>
+      </li>
+    <% }); %>
+  </ul>
+</nav>

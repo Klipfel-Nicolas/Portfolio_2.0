@@ -1,0 +1,15 @@
+header nav {
+    margin: 50px 0;
+    &>ul {
+        display: flex;
+        gap: 20px;
+
+        li {
+            font-size: 3rem;
+
+            &.active a {
+                color: burlywood;
+            }
+        }
+    }
+}
