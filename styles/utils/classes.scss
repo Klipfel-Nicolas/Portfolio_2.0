@@ -1,0 +1,13 @@
+.svg__container {
+    svg {
+       width: 100%; 
+    }
+}
+
+.img-block {
+    display: block;
+
+    &__center {
+        margin:  0 auto;
+    }
+}

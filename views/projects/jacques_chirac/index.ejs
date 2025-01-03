@@ -6,14 +6,16 @@
             description: project.meta_description[0].text ,
             favicon: project.meta_favicon.url
         }); %>
+
+        <link rel="stylesheet" href="/chirac.css">
     </head>
 
-    <body>
+    <body id="home" class="chirac-project chirac-project__home">
 
         <header>
-            <h1><%= project.title[0].text %>
-            </h1>
-            <div>
+            <h1><%= project.title[0].text %></h1>
+            
+            <div class="subtitle">
                 <span><%= project.subtitle[0].text %></span>
                 <span><%= project.presidence_date[0].text %></span>
             </div>
@@ -22,43 +24,78 @@
         <main>
             
             <!-- background svg -->
-            <%- include('../../svg_templates/jacques_chirac.ejs'); %>
+            <%- include('../../svg_templates/svg_chirac.ejs'); %>
+            
+            <div class="bottom-section">
+
+                <ul class="timeline timeline__list">
+                    <% timeline.forEach(function(time){ %>
+                        <li class="timeline__item">
+                            <div class="timeline__date"><%= time.date %></div> 
+                            <div class="timeline__event"><%= time.event %></div>
+                        </li>
+                    <% }); %>
+                    
+                </ul>
+            </div>
+            
             
             
             <aside>
-                <div>
-                    <img src="<%= project.logo.url %>" alt="<%= project.logo.alt %>">
-                </div>
+                <!-- Logo -->
+                <img src="<%= project.logo.url %>" alt="<%= project.logo.alt %>" class="img-block img-block__center">
 
+                <!-- Description -->
                 <p><%= project.description[0].text %></p>
 
-                <div>
-                    <h2><%= project.quiz_title[0].text %></h2>
+                <!-- Quiz -->
+                <div class="quiz-section">
+                    <h2 class="quiz-section__subtitle"><%= project.quiz_title[0].text %></h2>
 
-                    <button>Lancez le quiz</button>
+                    <a href="<%= prismicLinkProjectResolver(project.link_quiz) %>" class="quiz-section__cta" data-label="Lancez le quiz">
+                        Lancez le quiz
+                        <span class="decoration_lines top"></span>
+                        <span class="decoration_lines bottom"></span>
+                    </a>
                 </div>
 
-                <ul>
+                <!-- Citations -->
+                <ul class="citations citations__list">
                     <% citations.forEach(function(citation, index){ %>
-                        <li>
-                        <span>0<%= index + 1 %> / 0<%= citations.length %></span>
-                        <%= citation %>
+                        <li class="citations citations__item">
+                            <div class="citation__pagination">
+                                <div class="index-container">
+                                    <span>0</span><span class="index"><%= index + 1 %></span><span class="length">/0<%= citations.length %></span> 
+                                </div>
+                                <div class="duration"></div>
+                            </div>
+                            
+                            
+                            <p class="citation__text" data-index="<%= index + 1 %> "><%= citation %></p>
                         </li>
                     <% }); %>
                 </ul>
 
-                <div>
-                    <ul>
-                        <% project.social_media.forEach(function(social){ %>
-                            <li>
-                                <a href="<%= social.social_link.url %>" >
-                                    <img src="<%= social.social_logo.url %>" alt="<%= social.social_logo.alt %>">
-                                </a>
-                            </li>
-                        <% }); %>
-                    </ul>
-                </div>
+                <!-- Social médias -->
+                <ul class="social-medias__list">
+                    <% project.social_media.forEach(function(social){ %>
+                        <li>
+                            <a href="<%= social.social_link.url %>" >
+                                <img src="<%= social.social_logo.url %>" alt="<%= social.social_logo.alt %>">
+                            </a>
+                        </li>
+                    <% }); %>
+                </ul>
+                
             </aside>
         </main>
+
+
+        <!-- scripts -->
+        <%- include('../../partials/scripts', {
+            src: [
+                '/chirac.js',
+            ], 
+        }); %>
     </body>
 </html>

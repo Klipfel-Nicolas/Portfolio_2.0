@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <%- include('../partials/head', {title: projects.meta_title[0].text, description: projects.meta_description[0].text }); %>
-</head>
-<body class="container">
+    <head>
+        <%- include('../partials/head', {title: projects.meta_title[0].text, description: projects.meta_description[0].text }); %>
+        <link rel="stylesheet" href="/portfolio.css">
+    </head>
 
+    <body class="container">
 
+        <header>
+            <%- include('../partials/navigation', {navigation, currentPath: currentPath}); %>
+        </header>
 
-<header>
-    <%- include('../partials/navigation', {navigation, currentPath: currentPath}); %>
-</header>
+        <main>
+            <ul>
+                <% projects.projects_list.forEach(function(project){ %>
+                    <li>
+                        <a href="<%= prismicLinkProjectResolver(project.link) %>" target="_blank"><%= project.name[0].text %></a>
+                    </li>
+                <% }); %>
+            </ul>
+        </main>
 
-<main>
-    <ul>
-        <% projects.projects_list.forEach(function(project){ %>
-            <li>
-              <a href="<%= prismicLinkProjectResolver(project.link) %>" target="_blank"><%= project.name[0].text %></a>
-            </li>
-          <% }); %>
-    </ul>
-</main>
+        <footer>
+            <%- include('../partials/footer'); %>
+        </footer>
 
-<footer>
-    <%- include('../partials/footer'); %>
-</footer>
-
-</body>
+    </body>
 </html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../../partials/head', {
+            title: project.meta_title[0].text, 
+            description: project.meta_description[0].text ,
+            favicon: project.meta_favicon.url
+        }); %>
+
+        <link rel="stylesheet" href="/chirac.css">
+    </head>
+
+    <body id="quiz" class="chirac-project chirac-project__quiz">
+
+        <header>
+            <h1><%= project.title[0].text %></h1>
+            
+            <div class="subtitle">
+                <span><%= project.subtitle[0].text %></span>
+                <span><%= project.presidence_date[0].text %></span>
+            </div>
+        </header>
+
+        <main>
+
+            
+
+            <!-- Questions -->
+            <div id="quiz" class="questions-section">
+
+               <div id="progress" class="questions-progress"></div>
+
+                <div class="question question__container">
+                    <p id="question" class="question__text"></p>
+
+                    <ul class="question__answers-list" >
+                        <li id="choice0"></li>
+                        <li id="choice1"></li>
+                        <li id="choice2"></li>
+                        <li id="choice3"></li>
+                    </ul>
+
+                    <ul id="error"></ul>
+                </div>
+                
+                <!-- Question Image -->
+                <div id="question-image" class="question__image">
+                    <img src="" alt="">
+                </div>
+            
+            </div>
+
+            
+            <!-- Timeline -->
+            <div class="bottom-section">
+                <ul class="timeline timeline__list">
+                    <% timeline.forEach(function(time){ %>
+                        <li class="timeline__item">
+                            <div class="timeline__date"><%= time.date %></div> 
+                            <div class="timeline__event"><%= time.event %></div>
+                        </li>
+                    <% }); %>
+                    
+                </ul>
+            </div>
+            
+            
+            
+            <aside class="quiz">
+                <!-- Logo -->
+                <img src="<%= project.logo.url %>" alt="<%= project.logo.alt %>" class="img-block img-block__center">
+
+                <!-- Game title -->
+                <h2 class="quiz__title"><%= project.quiz_title[0].text %></h2>
+
+                <!-- CountDown -->
+                <div class="quiz_chrono">
+                    <div id="countdown"></div>
+                </div>
+
+                <!-- Earnings pyramids -->
+                <ul class="quiz__gains-list">
+                    <% gainsArray.forEach(function(gain){ %>
+                        <li class="gain"><%= gain %></li>
+                    <% }); %>
+                </ul>
+
+                <!-- Earnings pyramids -->
+                <ul class="quiz__jokers-list">
+                    <% quizDatas.jokers.forEach(function(joker){ %>
+                        <li class="joker joker__item" data-type="<%= joker.name[0].text %>">
+                            <div class="joker__name"><%= joker.name[0].text %></div>
+                            <img src="<%= joker.icon.url %>" alt="<%= joker.icon.alt %>" class="joker__image">
+                            <div class="joker__description"><%= joker.description[0].text %></div> 
+                        </li>
+                    <% }); %>
+                </ul>
+                
+            </aside>
+        </main>
+
+
+        <!-- scripts -->
+        <%- include('../../partials/scripts', {
+            src: [
+                '/chirac.js',
+            ], 
+        }); %>
+    </body>
+</html>

@@ -1,0 +1,628 @@
+@use './fonts.scss';
+
+// Colors
+$c-light: #FFFBF4;
+$c-red: #7F0815;
+$c-gold: #BD9E77;
+$c-dark-gold: #8C7040;
+$c-black: #000000;
+
+$c-dot: $c-light;
+$c-dot-remaining: $c-dark-gold;
+$c-dot-active: $c-gold;
+
+// Fonts
+$f-prestage: 'Prestage', serif;
+$f-abel: 'Abel', sans-serif;
+$f-square_peg: 'SquarePeg', serif;
+$f-lovelyn: 'Lovelyn', sans-serif;
+
+// Sizes
+$width-widget: 420px;
+$padding-widget: 50px;
+$position-widget: 100px;
+
+$padding-main: 5vw;
+$bottom-timeline: 125px;
+
+$width-cta: 225px;
+$xTranslate_lines-cta: calc((($width-widget/2) - ($width-cta/2) - $padding-widget) * 3);
+
+html {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+body {
+    font-family: $f-prestage;
+    background-color: $c-light;
+} 
+
+
+.chirac-project {
+
+    // HEADER
+    header {}
+
+    // MAIN
+    main  {
+        /* Timeline */
+        .bottom-section {
+            position: absolute;
+            bottom: $bottom-timeline;
+            width: calc(100vw - ($width-widget + $position-widget));
+
+            .timeline {
+                &__list {
+                    position: relative;
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 0 100px;
+
+                    &:after {
+                        content: '';
+                        position: absolute;
+                        top: 50%;
+                        left: 0;
+                        width: 100%;
+                        height: 1px;
+                        background-color: $c-gold;
+                        z-index: -1;
+                    }
+                }
+
+                &__item {
+                    position: relative;
+                    padding: 5px;
+                    color: $c-gold;
+                    background-color: $c-light;
+                    border-radius: 10px;
+                }
+
+                &__date {
+                    font-family: $f-lovelyn;
+                    font-size: 2rem;
+                }
+
+                &__event {
+                    position: absolute;
+                    top: 40px;
+                    transform: translateX(-100%) rotate(-45deg);
+                    transform-origin: top right;
+                    min-width: 140px;
+                    text-align: end;
+                    font-size: 1.2rem;
+                    font-family: $f-abel;
+                }
+            }
+        }
+    }
+    
+    // ASIDE
+    aside {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: $width-widget;
+        padding: $padding-widget;
+        color: $c-light;
+        background-color: $c-red;
+    }
+
+    
+    /* -------------------- 
+            HOME
+    ---------------------- */
+    &__home {
+        
+        // HEADER
+        header {
+            width: fit-content;
+            margin: 50px 100px;
+
+            h1 {
+                font-size: 13rem;
+            }
+
+            div.subtitle {
+                display: flex;
+                justify-content: space-between;
+                font-family: $f-abel;
+
+                span {
+                    display: inline-block;
+
+                    &:nth-child(1) {
+                        margin-left: 4rem;
+                        font-size: 2.2rem;
+                        letter-spacing: 1.6rem;
+                        color: $c-red;
+                    }
+
+                    &:nth-child(2) {
+                        margin-right: 4rem;
+                        font-size: 1.2rem;
+                        line-height: 2.2rem;
+                        letter-spacing: 0.1rem;
+                    }
+                }
+            }
+        }
+
+        // MAIN
+        main {
+            /* Background image */
+            .svg__container {
+                position: absolute;
+                width: calc(100vw - ($width-widget + $position-widget));
+                height: 75vh;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: .2;
+
+                svg {height: 100%;}
+            }
+
+            /* Timeline */
+            .bottom-section {
+                left: 0;
+            }
+        }
+
+        // ASIDE
+        aside {
+            right: $position-widget;
+            font-family: $f-abel;
+            
+
+            // paragraphe
+            p {
+                line-height: 3rem;
+            }
+
+            // quiz section
+            .quiz-section {
+                padding: 20px;
+                font-size: 2.2rem;
+                text-align: center;
+
+                &__cta {
+                    position: relative;
+                    display: block;
+                    margin: 50px auto;
+                    padding: 10px;
+                    width: $width-cta;
+                    color: $c-gold;
+                    background-color: $c-red;
+
+                    // Fake btn
+                    &::before {
+                        content: attr(data-label);
+                        display: inline-block;
+                        position: absolute;
+                        padding: 10px;
+                        top: 0;
+                        left: 0;
+                        height: 100%;
+                        width: 100%;
+                        color: #7F0815;
+                        background-color: #BD9E77;
+                        opacity: 1;
+                        transition: opacity .2s linear;
+                    }
+
+                    // Decoration Lines
+                    .decoration_lines {
+                        position: absolute;
+                        display: inline-block;
+                        height: 100%;
+                        width: 100%;
+                        top: 0;
+                        bottom: 0;
+                        transition: transform .2s cubic-bezier(.82,.19,.58,.74);
+
+                        &.top {
+                            border-top: 1px solid $c-gold;
+                            border-left: 1px solid $c-gold;
+                            left: 0;
+                            transform: translate(-$xTranslate_lines-cta, -125px) scaleX(0.25);
+                        }
+
+                        &.bottom {
+                            border-bottom: 1px solid $c-gold;
+                            border-right: 1px solid $c-gold;
+                            right: 0;
+                            transform: translate($xTranslate_lines-cta, 50px) scaleX(0.25);
+                        }
+                    }
+
+                    // On Hover
+                    &:hover {
+                        &::before { opacity: 0; }
+
+                        .decoration_lines {
+                            &.top,
+                            &.bottom {
+                                transform: translate(0) scaleX(1);
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            // citations
+            .citations {
+                position: relative;
+                min-height: 100px;
+
+                &__item {
+                    position: absolute;
+                    opacity: 0;
+
+                    .citation {
+                        &__pagination {
+                            .index-container { overflow: hidden; }
+                            
+                            .index {
+                                display: inline-block;
+                                transform: translateY(100%);
+                                transition: transform .4s ease-in;
+                            }
+            
+                            .length {
+                                font-size: 1rem;
+                            }
+
+                            .duration {
+                                position: relative;
+                                margin: 10px 0;
+                                width: 75px;
+                                height: 1px;
+                                background-color: $c-light;
+
+                                &::before {
+                                    content: '';
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    height: 1px;
+                                    width: 100%;
+                                    background-color: $c-dark-gold;
+                                    transform: scale(0);
+                                    transition: transform 10s linear;
+                                }
+                            }
+                        }
+
+                        &__text {
+                            opacity: 0;
+                            font-family: $f-square_peg;
+                            font-size: 2rem;
+                            transition: opacity 1s ease-in;
+                        }
+                    }
+                }
+
+                // Active
+                &__item.active {
+                    opacity: 1;
+
+                    .citation {
+                        &__pagination {
+                            .index { transform: translateY(0); }
+
+                            .duration::before {
+                                transform: scale(1);
+                                transform-origin: left;
+                            }
+                        }
+
+                        &__text {
+                            opacity: 1;
+                        }
+                   }
+                }
+
+                // Fade Out
+                &__item.out {
+                   
+                    .citation {
+                        &__pagination {
+                            .index { 
+                                transition-delay: .6s;
+                                transform: translateY(-100%);
+                            }
+                        }
+
+                        &__text {
+                            opacity: 0;
+                        }
+                    }
+                }
+
+                
+            }
+
+            // social medias icons
+            .social-medias {
+                &__list {
+                    display: flex;
+                    justify-content: space-around;
+                }
+            }
+        }
+    }
+
+
+
+
+    /* --------------------
+            QUIZ
+    ---------------------- */
+    &__quiz {
+        // HEADER
+        header {
+            width: fit-content;
+            position: absolute;
+            right: $padding-main;
+
+            h1 {
+                font-size: 5rem;
+            }
+
+            div.subtitle {
+                font-family: $f-abel;
+
+                span {
+                    display: inline-block;
+
+                    &:nth-child(1) {
+                        margin-left: 5px;
+                        font-size: 1.6rem;
+                        letter-spacing: 2rem;
+                        color: $c-red;
+                        text-align: center;
+                    }
+
+                    &:nth-child(2) {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+
+        // MAIN
+         main {
+            // Questions container
+            .questions-section {
+                position: relative;
+                margin-left: calc($width-widget + $position-widget);
+                padding: 0 $padding-main;
+                height: 100vh;
+
+                /* Progress */
+                .questions-progress {
+                    position: relative;
+                    font-family: $f-abel;
+                    color: $c-red;
+                    padding: 50px 5px;
+
+                    span {
+                        font-family: $f-lovelyn;
+                        &:nth-child(1) {font-size: 4rem;}
+                    }
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        height: 35%;
+                        width: 2px;
+                        background-color: $c-red;
+                    }
+                }
+
+                /* Questions */
+                .question {
+
+                    &__container {
+                        height: 100%;
+                    }
+                    /* Question label */
+                    &__text {
+                        font-size: 3.6rem;
+                        line-height: 5rem;;
+                    }
+
+                    /* Answer choices */
+                    &__answers-list {
+                        position: relative;
+                        margin: 50px 0;
+
+                        &::before {
+                            content: '';
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            width: 2px;
+                            height: 100%;
+                            background-color: $c-red;
+                        }
+                        
+                        li {
+                            cursor: pointer;
+                            width: 250px;
+                            margin: 25px;
+                            padding: 15px;
+                            text-align: center;
+                            font-size: 2.4rem;
+                            color: $c-gold;
+                            border: 1px solid $c-gold;
+                        }
+
+                        li:nth-child(odd) {
+                            grid-column: 1 / 2;
+                        }
+
+                        li:nth-child(even) {
+                            grid-column: 3 / 4;
+                        }
+                    }
+
+                    &__image {
+                        position: absolute;
+                        bottom: 0;
+                        z-index: -1;
+
+                        &.right {right: 0;}
+                        &.left {left: 0;}
+                        
+                        img {
+                            opacity: .5;
+                            min-height: 60vh;
+                        }
+                    }
+                }
+            }
+
+            /* Timeline */
+            .bottom-section {
+                right: 0;
+            }
+         }
+
+         // ASIDE
+        aside {
+            left: $position-widget;
+
+                /* Title */
+                .quiz__title {
+                    font-size: 3rem;
+                    color: $c-gold;
+                    padding-bottom: 15px;
+                    border-bottom: 1px solid $c-gold;
+                }
+
+                /* Countdown */
+                .quiz_chrono {
+
+                    #countdown {
+                        margin: 0 auto;
+                        max-width: 100px;
+
+                        .part {
+                            aspect-ratio: 1/1;
+                            display: grid;
+                            place-items: center;
+                        }
+
+                        /* Remaining Num */
+                        .remaining {
+                            grid-area: 1/1;
+                            color: $c-light;
+                            display: grid;
+                            text-align: center;
+                            font-size: 4rem;
+                        }
+
+                        /* Dots */
+                        .dot-container {
+                            grid-area: 1/1;
+                            height: 100%;
+                            width: 4%;
+                            rotate: calc(360deg / var(--dots) * var(--dot-idx));
+
+                            .dot {
+                                width: 50%;
+                                aspect-ratio: 1/2;
+                                background-color: $c-dot;
+                                border-radius: 5px;
+                                transition: background-color .25s;
+                                &[data-active=true]{
+                                background-color: $c-dot-remaining;
+                                &[data-lastactive=true]{
+                                    background-color: $c-dot-active;
+                                }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                
+                
+            
+                /* Gains list */
+                .quiz__gains-list {
+                    font-size: 2.5rem;
+                    color: $c-light;
+
+                    .gain {
+                        margin: 15px 0;
+                        font-family: $f-prestage;
+                        text-align: center;
+                    }
+                }
+
+                /* Jokers */
+                .quiz__jokers-list {
+                    position: relative;
+                    display: flex;
+                    justify-content: space-around;
+
+                    .joker {
+                        cursor: pointer;
+
+                        &__name,
+                        &__description {
+                            position: absolute;
+                            left: 0;
+                            width: 100%;
+                            text-align: center;
+                            transition: opacity .2s linear;
+                            pointer-events: none;
+                        }
+
+                        &__name {
+                            top: -100%;
+                            opacity: 0;
+                            font-size: 2rem;
+                            color: $c-gold;
+                        }
+
+                        &__description {
+                            bottom: -100%;
+                            opacity: 0;
+                            font-family: $f-abel;
+                            font-size: 1.4rem;
+                        }
+
+                        &:hover {
+
+                            .joker__name,
+                            .joker__description {
+                                opacity: 1;
+                            }
+                        }
+                    }
+                }
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    bottom: calc($bottom-timeline + 15px);
+                    width: 100%;
+                    height: 1px;
+                    left: 0;
+                    background-color: $c-gold;
+                }
+        }
+    }
+}

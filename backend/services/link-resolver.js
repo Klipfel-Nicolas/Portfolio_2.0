@@ -27,7 +27,11 @@ module.exports.linkPageResolver = (doc) => {
 module.exports.linkProjectResolver = (doc) => {
 
   if (doc.type == 'jacques_chirac_project') {
-    return '/project/jacques-chirac-quiz';
+    return '/project/jacques_chirac';
+  }
+
+  if (doc.type == 'project_jacques_chirac_quiz') {
+    return '/project/jacques_chirac/quiz';
   }
 
   return '/';

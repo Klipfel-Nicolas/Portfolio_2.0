@@ -1,3 +1,4 @@
+require("dotenv").config({ path: "./.env" });
 const path = require('path');
 const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -5,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 
@@ -14,8 +16,14 @@ const dirShared = path.join(__dirname, 'shared');
 const dirStyles = path.join(__dirname, 'styles');
 const dirNode = 'node_modules';
 
+console.log('process.env.APP_URL =', process.env.APP_URL);
+
 module.exports = {
-    entry: [path.join(dirApp, 'index.js'), path.join(dirStyles, 'index.scss'), path.join(dirStyles, 'chirac.scss')],
+    entry: {
+      main: [path.join(dirApp, 'Entries/index.js'), path.join(dirStyles, 'index.scss')],
+      portfolio: [ path.join(dirStyles, 'portfolio.scss')],
+      chirac: [path.join(dirApp, 'Entries/Projects/chirac/chirac.js'), path.join(dirStyles, 'projects/chirac/index.scss')],
+    },
   
     resolve: {
       modules: [dirApp, dirAssets, dirShared, dirStyles, dirNode],
@@ -24,6 +32,7 @@ module.exports = {
     plugins: [
       new webpack.DefinePlugin({
         IS_DEVELOPMENT,
+        'process.env.APP_URL': JSON.stringify(process.env.APP_URL),
       }),
   
       new CopyPlugin({

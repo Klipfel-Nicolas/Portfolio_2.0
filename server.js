@@ -4,14 +4,14 @@ const errorHandler = require('errorhandler');
 const bodyParser = require('body-parser');
 
 // Routes
-const indexRoutes = require('./routes/index.routes');
-const projectsRoutes = require('./routes/projects.routes');
+const indexRoutes = require('./backend/routes/index.routes');
+const projectsRoutes = require('./backend/routes/projects.routes');
 
 // Link resolver
-const {linkPageResolver, linkProjectResolver} = require('./services/link-resolver');
+const {linkPageResolver, linkProjectResolver} = require('./backend/services/link-resolver');
 
 //On require dotenv et recupère notre port dans config/.env
-require("dotenv").config({ path: "./config/.env" });
+require("dotenv").config({ path: "./.env" });
 
 // Server config
 const app = express();
@@ -38,6 +38,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // routes
 app.use("/", indexRoutes);
 app.use("/project", projectsRoutes);
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
