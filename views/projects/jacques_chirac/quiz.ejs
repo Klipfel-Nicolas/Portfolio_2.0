@@ -22,31 +22,35 @@
         </header>
 
         <main>
-
-            
-
             <!-- Questions -->
-            <div id="quiz" class="questions-section">
+            <div id="quiz" class="quiz-section">
 
-               <div id="progress" class="questions-progress"></div>
+               
 
-                <div class="question question__container">
-                    <p id="question" class="question__text"></p>
+               <div class="questions-section">
+                   <div class="question question__container">
+                    
+                        <div id="progress" class="questions-progress"></div>
 
-                    <ul class="question__answers-list" >
-                        <li id="choice0"></li>
-                        <li id="choice1"></li>
-                        <li id="choice2"></li>
-                        <li id="choice3"></li>
-                    </ul>
+                       <p id="question" class="question__text"></p>
+   
+                       <ul class="question__answers-list" >
+                           <li id="choice0" data-letter="A"></li>
+                           <li id="choice1" data-letter="B"></li>
+                           <li id="choice2" data-letter="C"></li>
+                           <li id="choice3" data-letter="D"></li>
+                       </ul>
+   
+                       <ul id="error"></ul>
+                   </div>
 
-                    <ul id="error"></ul>
-                </div>
+                   <!-- Question Image -->
+                    <div id="question-image" class="question__image">
+                        <img src="" alt="">
+                    </div>
+               </div>
                 
-                <!-- Question Image -->
-                <div id="question-image" class="question__image">
-                    <img src="" alt="">
-                </div>
+                
             
             </div>
 
@@ -81,7 +85,9 @@
                 <!-- Earnings pyramids -->
                 <ul class="quiz__gains-list">
                     <% gainsArray.forEach(function(gain){ %>
-                        <li class="gain"><%= gain %></li>
+                        <li class="gain">
+                            <span><%= gain %></span>  
+                        </li>
                     <% }); %>
                 </ul>
 

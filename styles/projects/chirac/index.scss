@@ -1,4 +1,5 @@
 @use './fonts.scss';
+@use '../../mixins/responsive.scss' as *;
 
 // Colors
 $c-light: #FFFBF4;
@@ -41,7 +42,6 @@ body {
 
 
 .chirac-project {
-
     // HEADER
     header {}
 
@@ -75,9 +75,9 @@ body {
                 &__item {
                     position: relative;
                     padding: 5px;
-                    color: $c-gold;
-                    background-color: $c-light;
-                    border-radius: 10px;
+                    color: $c-red;
+                    border-radius: 3px;
+                    backdrop-filter: blur(5px);
                 }
 
                 &__date {
@@ -369,6 +369,7 @@ body {
         header {
             width: fit-content;
             position: absolute;
+            top: 50px;
             right: $padding-main;
 
             h1 {
@@ -400,10 +401,9 @@ body {
         // MAIN
          main {
             // Questions container
-            .questions-section {
+            .quiz-section {
                 position: relative;
                 margin-left: calc($width-widget + $position-widget);
-                padding: 0 $padding-main;
                 height: 100vh;
 
                 /* Progress */
@@ -411,7 +411,7 @@ body {
                     position: relative;
                     font-family: $f-abel;
                     color: $c-red;
-                    padding: 50px 5px;
+                    padding-top: 50px;
 
                     span {
                         font-family: $f-lovelyn;
@@ -423,70 +423,95 @@ body {
                         position: absolute;
                         left: 0;
                         top: 0;
-                        height: 35%;
-                        width: 2px;
+                        height: 50%;
+                        width: 1px;
                         background-color: $c-red;
                     }
                 }
-
+                
                 /* Questions */
-                .question {
+                .questions-section {
+                    display: flex;
+                    justify-content: space-between;
+                    height: 100%;
 
-                    &__container {
-                        height: 100%;
-                    }
-                    /* Question label */
-                    &__text {
-                        font-size: 3.6rem;
-                        line-height: 5rem;;
+                    &[data-position="right"] {
+                      padding-left: $padding-main;  
                     }
 
-                    /* Answer choices */
-                    &__answers-list {
-                        position: relative;
-                        margin: 50px 0;
+                    &[data-position="left"] {
+                        flex-direction: row-reverse;
+                        padding-right: $padding-main;
+                    }
 
-                        &::before {
-                            content: '';
-                            position: absolute;
-                            left: 0;
-                            top: 0;
-                            width: 2px;
-                            height: 100%;
-                            background-color: $c-red;
+                    .question {
+
+                        &__container {
+                            max-width: 50%;
                         }
+
+                        /* Question label */
+                        &__text {
+                            margin-top: 10vh;
+                            font-size: 3.6rem;
+                            line-height: 5rem;;
+                        }
+
+                        /* Answer choices */
+                        &__answers-list {
+                            position: relative;
+                            margin-top: 20px;
+                            padding-top: 50px;
+                            
+                            li {
+                                cursor: pointer;
+                                position: relative;
+                                margin: 5rem;
+                                font-size: 2.4rem;
+                                line-height: 4rem;
+                                color: $c-red;
                         
-                        li {
-                            cursor: pointer;
-                            width: 250px;
-                            margin: 25px;
-                            padding: 15px;
-                            text-align: center;
-                            font-size: 2.4rem;
-                            color: $c-gold;
-                            border: 1px solid $c-gold;
+
+                                &::before {
+                                    content: attr(data-letter);
+                                    position: absolute;
+                                    z-index: 2;
+                                    top: 0;
+                                    left: -5rem;
+                                    width: 40px;
+                                    text-align: center;
+                                    background-color: $c-light;
+                                    border: 1px solid $c-red;
+                                    border-radius: 100%;
+                                    transform: translateX(-50%);
+                                }
+                            }
+
+                            
+
+                            &::after {
+                                content: '';
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                width: 1px;
+                                height: 100%;
+                                background-color: $c-red;
+                            }
                         }
 
-                        li:nth-child(odd) {
-                            grid-column: 1 / 2;
-                        }
+                        &__image {
+                            position: relative;
 
-                        li:nth-child(even) {
-                            grid-column: 3 / 4;
-                        }
-                    }
-
-                    &__image {
-                        position: absolute;
-                        bottom: 0;
-                        z-index: -1;
-
-                        &.right {right: 0;}
-                        &.left {left: 0;}
-                        
-                        img {
-                            opacity: .5;
-                            min-height: 60vh;
+                            &[data-position="left"] img {left: 0;}
+                            &[data-position="right"] img {right: 0;}
+                            
+                            img {
+                                position: absolute;
+                                bottom: 0;
+                                height: 70vh;
+                                opacity: .5;
+                            }
                         }
                     }
                 }
@@ -561,13 +586,25 @@ body {
             
                 /* Gains list */
                 .quiz__gains-list {
+                    display: flex;
+                    flex-direction: column-reverse;
                     font-size: 2.5rem;
                     color: $c-light;
 
                     .gain {
+                        position: relative;
                         margin: 15px 0;
                         font-family: $f-prestage;
                         text-align: center;
+
+
+                        &.current {  
+                            border: 1px solid $c-gold;
+                        }
+
+                        &.won {
+                            color: #BD9E77;
+                        }
                     }
                 }
 
@@ -605,11 +642,15 @@ body {
                         }
 
                         &:hover {
-
                             .joker__name,
                             .joker__description {
                                 opacity: 1;
                             }
+                        }
+
+                        &.used {
+                            pointer-events: none;
+                            opacity: .4;
                         }
                     }
                 }
@@ -626,3 +667,16 @@ body {
         }
     }
 }
+
+
+
+@include breakpoint(xl) {
+
+    .chirac-project {
+        
+        &__quiz {
+            main {
+            }
+        }
+    }
+} 

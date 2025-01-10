@@ -47,11 +47,12 @@ export default class QuizzApp {
         if(this.quiz.hasEnded()){
             this.showEndQuiz();
         }else{ 
-            this.resetJokerEffect();
+            this.quiz.resetJokerEffect(document.querySelectorAll('.question__answers-list li'));
             this.showImage();
             this.showQuestion();
             this.showChoices();
             this.progress();
+            this.showCurrentGain();
 
             this.countdown.mountCountdown();
             this.onCountdownEnd();
@@ -105,11 +106,12 @@ export default class QuizzApp {
      */
     showImage(){
         let container = document.getElementById('question-image');
+        document.querySelector('.questions-section').setAttribute('data-position', this.quiz.getCurrentQuestion().image.position);
+        container.setAttribute('data-position', this.quiz.getCurrentQuestion().image.position);
         let img = container.querySelector('img') || document.createElement('img');
         
         img.src = this.quiz.getCurrentQuestion().image.url;
         img.alt = this.quiz.getCurrentQuestion().image.alt;
-        container.classList.add(`${this.quiz.getCurrentQuestion().image.position}`);
     }
 
     /**
@@ -146,52 +148,18 @@ export default class QuizzApp {
         displayErrors();
     }
 
-    /* ---------------- JOKERS Functions ---------------- */
-
-    /**
-     * Reset Joker effect(display all choices)
-     */
-    resetJokerEffect() {
-        let choicesElements = document.querySelectorAll('.question__answers-list li');
-        choicesElements.forEach(choice => {
-            choice.style.display = 'block';
-        })
-    }
-
-    /**
-     * Jacques Chirac or other joker
-     */
-    chiracOrOtherJoker() {
-        let choicesElements = document.querySelectorAll('.question__answers-list li');
+    showCurrentGain() {
+        const gainsProgress = document.querySelectorAll('.quiz__gains-list li.gain');
         
-        choicesElements.forEach(choice => {
-            if(this.quiz.getCurrentQuestion().answer == 'Jacques Chirac') {
-                if(choice.dataset.value !== 'Jacques Chirac') choice.style.display = 'none';
-            } else {
-                if(choice.dataset.value == 'Jacques Chirac') choice.style.display = 'none';
-            }
+        gainsProgress.forEach((gain, idx) => {
+            if(gain.classList.contains('current') && this.quiz.score != idx) gain.classList.remove('current');
+            if(this.quiz.score === idx) gain.classList.add('current');
+            if(this.quiz.score > idx) gain.classList.add('won');
+                
+            
         })
+        console.log(this.quiz.score);
     }
-
-    /**
-     * Call Google Joker
-     */
-    callGoogleJoker() {
-        this.countdown.destroyCountdown();
-        window.open("https://www.google.com/", "_blank");
-    }
-
-    /**
-     * 50/50 Joker
-     */
-    fiftyFiftyJoker() {
-        let choicesElements = Array.from(document.querySelectorAll('.question__answers-list li')).filter(choice => choice.dataset.value !== this.quiz.getCurrentQuestion().answer);
-        
-        choicesElements[0].style.display = 'none';
-        choicesElements[2].style.display = 'none';
-    }
-
-
 
     /* ---------------- LISTENERS ---------------- */
 
@@ -217,17 +185,17 @@ export default class QuizzApp {
         jokers.forEach(joker => {
             joker.addEventListener('click', (e) => {
                 let jockerType = joker.dataset.type;
-                console.log(jockerType);
+                joker.classList.add('used');
 
                 switch (jockerType) {
                     case 'Jacques Chirac ou les autres.':
-                        this.chiracOrOtherJoker();
+                        this.quiz.chiracOrOtherJoker(document.querySelectorAll('.question__answers-list li'));
                         break;
                     case 'Appelle ton amis Google':
-                        this.callGoogleJoker();
+                        this.quiz.callGoogleJoker(this.countdown);
                         break;
                     case '50/50':
-                        this.fiftyFiftyJoker();
+                        this.quiz.fiftyFiftyJoker(document.querySelectorAll('.question__answers-list li'));
                         break;
                 
                     default:

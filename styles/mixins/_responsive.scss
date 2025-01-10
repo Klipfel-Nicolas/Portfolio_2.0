@@ -1,0 +1,85 @@
+
+// Dimensions
+$mq-extra-small:  480px;
+$mq-small:        640px;
+$mq-start-tablet: 700px;
+$mq-medium:       768px;
+$mq-large:        1024px;
+$mq-start-desktop: 1100px;
+$mq-layout-width: 1200px;
+$mq-start-large-desktop: 1245px;
+$mq-extra-large:  1280px;
+$mq-start-extra-large-desktop: 1445px;
+
+
+
+// =============================================
+// Mixin to create BreakPoint for responsive Grid
+// =============================================
+@mixin respond-to($breakpoint) {
+    @if $breakpoint == "small" {
+        @media only screen and (max-width: $mq-small) {
+            @content;
+        }
+    } @else if $breakpoint == "medium" {
+        @media only screen and (max-width: $mq-start-desktop) {
+            @content;
+        }
+    } @else if $breakpoint == "large" {
+        @media only screen and (max-width: $mq-start-large-desktop) {
+            @content;
+        }
+    } @else {
+        @media only screen and (max-width: $breakpoint) {
+            @content;
+        }
+    }
+}
+
+/* Media queries
+-------------------------- */
+@mixin breakpoint($class) {
+    @if $class == xs {
+        @media (min-width: $mq-extra-small) { @content; }
+    }
+  
+    @else if $class == only-xs {
+        @media (max-width: $mq-extra-small) { @content; }
+    }
+
+    @else if $class == sm {
+        @media (min-width: $mq-small) { @content; }
+    }
+  
+    @else if $class == only-sm {
+        @media (max-width: $mq-small) { @content; }
+    }
+  
+    @else if $class == md {
+        @media (min-width: $mq-medium) { @content; }
+    }
+  
+    @else if $class == only-md {
+        @media (max-width: $mq-medium) { @content; }
+    }
+  
+    @else if $class == lg {
+        @media (min-width: $mq-large) { @content; }
+    }
+  
+    @else if $class == only-lg {
+        @media (max-width: $mq-large) { @content; }
+    }
+  
+    @else if $class == xl {
+        @media (min-width: $mq-extra-large) { @content; }
+    }
+  
+    @else if $class == only-xl {
+        @media (max-width: $mq-extra-large) { @content; }
+    }
+  
+    @else {
+        @warn "Breakpoint mixin supports: xs, sm, md, lg, xl";
+    }
+}

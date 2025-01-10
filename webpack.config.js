@@ -16,8 +16,6 @@ const dirShared = path.join(__dirname, 'shared');
 const dirStyles = path.join(__dirname, 'styles');
 const dirNode = 'node_modules';
 
-console.log('process.env.APP_URL =', process.env.APP_URL);
-
 module.exports = {
     entry: {
       main: [path.join(dirApp, 'Entries/index.js'), path.join(dirStyles, 'index.scss')],
