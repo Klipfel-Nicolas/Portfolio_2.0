@@ -5,6 +5,7 @@ export default class QuizzApp {
     constructor(quiz){
         this.initQuiz();
         this.jokerEvents();
+        this.onClickMobileCta();
     }
 
     /**
@@ -67,10 +68,13 @@ export default class QuizzApp {
      * @param {String} text 
      * @param {Object} dataset 
      */
-    innerElementHtml (id, text, dataset){
-        let element = document.getElementById(id);
-        if(dataset) element.setAttribute(Object.keys(dataset)[0], Object.values(dataset)[0]); 
-        element.innerHTML = text; 
+    innerElementHtml (datasetSelector, text, dataset){
+        let elements = document.querySelectorAll(`[data-quiz='${datasetSelector}']`);
+
+        elements && elements.forEach(element => {
+            if(dataset) element.setAttribute(Object.keys(dataset)[0], Object.values(dataset)[0]); 
+            element.innerHTML = text; 
+        });
     }
 
     /**
@@ -86,12 +90,15 @@ export default class QuizzApp {
     showChoices() {
         let choices = this.quiz.getCurrentQuestion().choices;
 
-        let guessHandler = (id, guess)=>{
-            document.getElementById(id).onclick = () => {
-                this.countdown.destroyCountdown();
-                this.quiz.guess(guess);       
-                this.handleQuiz();
-            }
+        let guessHandler = (dataset, guess)=>{
+            let currentChoices = document.querySelectorAll(`[data-quiz='${dataset}']`); // One Desktop and one Mobile
+            currentChoices.forEach(currentChoice => {
+                currentChoice.onclick = () => {
+                    this.countdown.destroyCountdown();
+                    this.quiz.guess(guess);       
+                    this.handleQuiz();
+                }
+            });
         }
         
         choices.forEach((choice, i) => {
@@ -106,8 +113,8 @@ export default class QuizzApp {
      */
     showImage(){
         let container = document.getElementById('question-image');
-        document.querySelector('.questions-section').setAttribute('data-position', this.quiz.getCurrentQuestion().image.position);
-        container.setAttribute('data-position', this.quiz.getCurrentQuestion().image.position);
+        //document.querySelector('.questions-section').setAttribute('data-position', this.quiz.getCurrentQuestion().image.position);
+        //container.setAttribute('data-position', this.quiz.getCurrentQuestion().image.position);
         let img = container.querySelector('img') || document.createElement('img');
         
         img.src = this.quiz.getCurrentQuestion().image.url;
@@ -138,7 +145,6 @@ export default class QuizzApp {
         this.innerElementHtml("quiz", endQuizHTML);
 
         let displayErrors = ()=>{
-            console.log(this.quiz.errors);
             this.quiz.errors.forEach(error=>{
                 let err = document.createElement('li');
                 err.innerHTML = `${error.text} <span class="false">  ${error.answer}</span>`;
@@ -149,7 +155,7 @@ export default class QuizzApp {
     }
 
     showCurrentGain() {
-        const gainsProgress = document.querySelectorAll('.quiz__gains-list li.gain');
+        const gainsProgress = document.querySelectorAll('.gains-list li.gain');
         
         gainsProgress.forEach((gain, idx) => {
             if(gain.classList.contains('current') && this.quiz.score != idx) gain.classList.remove('current');
@@ -158,7 +164,6 @@ export default class QuizzApp {
                 
             
         })
-        console.log(this.quiz.score);
     }
 
     /* ---------------- LISTENERS ---------------- */
@@ -202,6 +207,14 @@ export default class QuizzApp {
                         break;
                 }
             })
+        })
+    }
+
+    onClickMobileCta() {
+        let mobileCta = document.getElementById('widget-cta');
+        mobileCta.addEventListener('click', () => {
+            let mobileMenu = document.getElementById('content');
+            mobileMenu.classList.toggle('open');
         })
     }
 

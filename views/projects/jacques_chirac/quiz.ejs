@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <%- include('../../partials/head', {
-            title: project.meta_title[0].text, 
+            title: quizDatas.meta_title[0].text, 
             description: project.meta_description[0].text ,
             favicon: project.meta_favicon.url
         }); %>
@@ -10,99 +10,136 @@
         <link rel="stylesheet" href="/chirac.css">
     </head>
 
-    <body id="quiz" class="chirac-project chirac-project__quiz">
+    <body id="quiz" data-quiz="quiz" class="chirac-project chirac-project__quiz">
 
         <header>
-            <h1><%= project.title[0].text %></h1>
-            
-            <div class="subtitle">
-                <span><%= project.subtitle[0].text %></span>
-                <span><%= project.presidence_date[0].text %></span>
+            <div class="page-title">
+                <h1><%= project.title[0].text %></h1>
+                
+                <div class="subtitle">
+                    <span><%= project.subtitle[0].text %></span>
+                    <span><%= project.presidence_date[0].text %></span>
+                </div>
             </div>
         </header>
 
         <main>
-            <!-- Questions -->
-            <div id="quiz" class="quiz-section">
-
-               
-
-               <div class="questions-section">
-                   <div class="question question__container">
-                    
-                        <div id="progress" class="questions-progress"></div>
-
-                       <p id="question" class="question__text"></p>
-   
-                       <ul class="question__answers-list" >
-                           <li id="choice0" data-letter="A"></li>
-                           <li id="choice1" data-letter="B"></li>
-                           <li id="choice2" data-letter="C"></li>
-                           <li id="choice3" data-letter="D"></li>
-                       </ul>
-   
-                       <ul id="error"></ul>
-                   </div>
-
-                   <!-- Question Image -->
-                    <div id="question-image" class="question__image">
-                        <img src="" alt="">
-                    </div>
-               </div>
+            <!-- Mobile only -->
+             <div id="mobile-quiz" class="mobile-tablet_screen mobile-quiz">
                 
-                
-            
-            </div>
+                <p data-quiz="question" class="mobile-quiz__question"></p>
 
             
-            <!-- Timeline -->
-            <div class="bottom-section">
-                <ul class="timeline timeline__list">
-                    <% timeline.forEach(function(time){ %>
-                        <li class="timeline__item">
-                            <div class="timeline__date"><%= time.date %></div> 
-                            <div class="timeline__event"><%= time.event %></div>
-                        </li>
-                    <% }); %>
-                    
+                <ul class="mobile-quiz__answers-list question__answers-list" >
+                    <li data-quiz="choice0" class="answer-item" data-letter="A"></li>
+                    <li data-quiz="choice1" class="answer-item" data-letter="B"></li>
+                    <li data-quiz="choice2" class="answer-item" data-letter="C"></li>
+                    <li data-quiz="choice3" class="answer-item" data-letter="D"></li>
                 </ul>
-            </div>
-            
-            
-            
-            <aside class="quiz">
-                <!-- Logo -->
-                <img src="<%= project.logo.url %>" alt="<%= project.logo.alt %>" class="img-block img-block__center">
+             </div>
 
-                <!-- Game title -->
-                <h2 class="quiz__title"><%= project.quiz_title[0].text %></h2>
+            <!-- Timeline -->
+            <ul class="timeline timeline__list desktop-only">
+                <% timeline.forEach(function(time){ %>
+                    <li class="timeline__item">
+                        <div class="timeline__date"><%= time.date %></div> 
+                        <div class="timeline__event"><%= time.event %></div>
+                    </li>
+                <% }); %>
+            </ul>
 
-                <!-- CountDown -->
-                <div class="quiz_chrono">
-                    <div id="countdown"></div>
+            <!-- Content -->
+            <div id="content" class="content-section">
+
+                <!-- progress -->
+                <div data-quiz="progress" class="questions-progress"></div>
+
+                <!-- Mobile cta -->
+                <div id="widget-cta" class="widget__btn mobile-tablet_screen">+</div>
+                
+                <!-- Widget -->
+                <div id="widget" class="widget widget__container">
+                    
+                    <!-- Jokers / Countdown -->
+                    <div class="widget__top-container">
+                        
+                        <!-- Jokers list -->
+                        <ul class="jokers-list">
+                            <% quizDatas.jokers.forEach(function(joker){ %>
+                                <li 
+                                    class="joker joker__item" 
+                                    data-type="<%= joker.name[0].text %>"
+                                    title="<%= joker.name[0].text %>"
+                                >
+                                    <img src="<%= joker.icon.url %>" alt="<%= joker.icon.alt %>" class="joker__image">
+                                    
+                                    <div class="joker__description">
+                                        <div>
+                                           <img src="<%= joker.icon.url %>" alt="<%= joker.icon.alt %>" class="joker__image"> 
+                                           <span class="joker__name"><%= joker.name[0].text %></span>
+                                        </div>
+                                        <p class="joker__explanation"><%= joker.description[0].text %></p>
+                                    </div> 
+
+                                </li>
+                            <% }); %>
+                        </ul>
+                        
+                        <!-- CountDown -->
+                        <div class="quiz_chrono">
+                            <div id="countdown"></div>
+                        </div>
+                    </div>
+
+                    <!-- title -->
+                    <h2 class="widget__quiz-title"><%= project.quiz_title[0].text %></h2>
+
+                    <!-- Questions -->
+                    <p data-quiz="question" class="widget__question"></p>
+                    
+                    <!-- Earnings pyramids / Answers / Errors -->
+                    <div class="widget__bottom-container">
+                        <!-- Earnings pyramids -->
+                        <ul class="gains-list">
+                            <% gainsArray.forEach(function(gain){ %>
+                                <li class="gain">
+                                    <span><%= gain %></span>  
+                                </li>
+                            <% }); %>
+                        </ul>
+
+                        <!-- Answers -->
+                        <ul class="question__answers-list" >
+                            <li data-quiz="choice0" class="answer-item" data-letter="A"></li>
+                            <li data-quiz="choice1" class="answer-item" data-letter="B"></li>
+                            <li data-quiz="choice2" class="answer-item" data-letter="C"></li>
+                            <li data-quiz="choice3" class="answer-item" data-letter="D"></li>
+                        </ul>
+
+                        <!-- Errors -->
+                        <ul id="error"></ul>
+                    </div>
+
                 </div>
 
-                <!-- Earnings pyramids -->
-                <ul class="quiz__gains-list">
-                    <% gainsArray.forEach(function(gain){ %>
-                        <li class="gain">
-                            <span><%= gain %></span>  
+                <!-- Social médias -->
+                <ul class="social-medias__list">
+                    <% project.social_media.forEach(function(social){ %>
+                        <li>
+                            <a href="<%= social.social_link.url %>" >
+                                <img src="<%= social.social_logo.url %>" alt="<%= social.social_logo.alt %>">
+                            </a>
                         </li>
                     <% }); %>
                 </ul>
 
-                <!-- Earnings pyramids -->
-                <ul class="quiz__jokers-list">
-                    <% quizDatas.jokers.forEach(function(joker){ %>
-                        <li class="joker joker__item" data-type="<%= joker.name[0].text %>">
-                            <div class="joker__name"><%= joker.name[0].text %></div>
-                            <img src="<%= joker.icon.url %>" alt="<%= joker.icon.alt %>" class="joker__image">
-                            <div class="joker__description"><%= joker.description[0].text %></div> 
-                        </li>
-                    <% }); %>
-                </ul>
-                
-            </aside>
+            </div>
+            
+            <!-- Image -->
+            <div id="question-image" class="question__image">
+                <img src="" alt="">
+            </div>
+
         </main>
 
 

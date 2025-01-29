@@ -1,40 +1,18 @@
 
-// Dimensions
+// Dimensions width
 $mq-extra-small:  480px;
 $mq-small:        640px;
 $mq-start-tablet: 700px;
 $mq-medium:       768px;
+$mq-medium-large: 800px;
 $mq-large:        1024px;
 $mq-start-desktop: 1100px;
 $mq-layout-width: 1200px;
 $mq-start-large-desktop: 1245px;
 $mq-extra-large:  1280px;
-$mq-start-extra-large-desktop: 1445px;
+$mq-start-extra-large-desktop: 1545px;
 
-
-
-// =============================================
-// Mixin to create BreakPoint for responsive Grid
-// =============================================
-@mixin respond-to($breakpoint) {
-    @if $breakpoint == "small" {
-        @media only screen and (max-width: $mq-small) {
-            @content;
-        }
-    } @else if $breakpoint == "medium" {
-        @media only screen and (max-width: $mq-start-desktop) {
-            @content;
-        }
-    } @else if $breakpoint == "large" {
-        @media only screen and (max-width: $mq-start-large-desktop) {
-            @content;
-        }
-    } @else {
-        @media only screen and (max-width: $breakpoint) {
-            @content;
-        }
-    }
-}
+ 
 
 /* Media queries
 -------------------------- */
@@ -77,6 +55,13 @@ $mq-start-extra-large-desktop: 1445px;
   
     @else if $class == only-xl {
         @media (max-width: $mq-extra-large) { @content; }
+    }
+    @else if $class == xxl {
+        @media (max-height: $mq-start-extra-large-desktop) { @content; }
+    }
+    // Height
+    @else if $class == only-sm-height {
+        @media (max-height: $mq-medium-large) { @content; }
     }
   
     @else {

@@ -1,3 +1,18 @@
+@use '../mixins/responsive' as *;
+
+.mobile-tablet_screen {
+    @include breakpoint(md) {
+        display: none;
+    }
+}
+
+.desktop-only {
+    @include breakpoint(only-xl) {
+        display: none;
+    }
+}
+
+
 .svg__container {
     svg {
        width: 100%; 
